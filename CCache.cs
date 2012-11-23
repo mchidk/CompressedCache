@@ -13,12 +13,17 @@ namespace CompressedCache
 			HttpContext.Current.Cache.Insert(cachekey, Compress.CompressGZip(ConvertHelper.ObjectToByteArray(objToCache)), null, DateTime.Now.AddMinutes(minutesToCache), System.Web.Caching.Cache.NoSlidingExpiration);
 		}
 
+		public static int CalcSize(object objToCache)
+		{
+			return Compress.CompressGZip(ConvertHelper.ObjectToByteArray(objToCache)).Length;
+		}
+
 		public static object Get(string cachekey)
 		{
 			if (HttpContext.Current.Cache[cachekey] != null)
 			{
 				//HttpContext.Current.Response.Write("CACHE_" + cachekey + "_");
-				return Compress.DecompressGZip(ConvertHelper.ObjectToByteArray(HttpContext.Current.Cache[cachekey]));
+				return ConvertHelper.ByteArrayToObject(Compress.DecompressGZip((byte[])HttpContext.Current.Cache[cachekey]));
 			}
 			return null;
 		}
