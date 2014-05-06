@@ -15,7 +15,7 @@ namespace CompressedCache
 
 		public static int CalcSize(object objToCache)
 		{
-			return Compress.CompressGZip(ConvertHelper.ObjectToByteArray(objToCache)).Length;
+			return Compress.CompressGZip(ConvertHelper.ObjectToByteArray(objToCache)).Length; 
 		}
 
 		public static object Get(string cachekey)
